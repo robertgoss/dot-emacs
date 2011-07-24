@@ -13,7 +13,16 @@
 
 (load "~/.emacs.d/haskell-mode/haskell-site-file")
 (add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d/pymacs")
+(add-to-list 'load-path "~/.emacs.d/python-mode")
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
+
+(require 'auto-complete)
+(global-auto-complete-mode t)
+
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/snippets")
 
 (require 'color-theme)
 (color-theme-initialize)
@@ -29,3 +38,7 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
+
+(load-library "init_python")
+(setq auto-mode-alist (cons '("\\.sage$" . python-mode) 
+auto-mode-alist))
