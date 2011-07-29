@@ -17,6 +17,8 @@
 (add-to-list 'load-path "~/.emacs.d/python-mode")
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
 
+(require 'egg)
+
 (require 'auto-complete)
 (global-auto-complete-mode t)
 
