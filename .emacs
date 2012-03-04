@@ -59,7 +59,7 @@
 (color-theme-tangotango)
 
 ;;Egg - Git
-(add-to-list 'load-path "~/.emacs.d/egg")
+(add-to-list 'load-path "~/.emacs.d/egg_true")
 (require 'egg)
 
 ;;Tab setting
