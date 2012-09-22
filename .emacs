@@ -58,6 +58,24 @@
 (require 'color-theme-tangotango)
 (color-theme-tangotango)
 
+
+;;Wanderlust
+(autoload 'wl "wl" "Wanderlust" t)
+;;HTML view
+(require 'w3m)
+(require 'mime-w3m)
+(eval-after-load "w3m"
+ '(progn
+ (define-key w3m-mode-map [left] 'backward-char)
+ (define-key w3m-mode-map [right] 'forward-char)
+ (define-key w3m-mode-map [up] 'previous-line)
+ (define-key w3m-mode-map [down] 'next-line)
+ (define-key w3m-minor-mode-map [left] 'backward-char)
+ (define-key w3m-minor-mode-map [right] 'forward-char)
+ (define-key w3m-minor-mode-map [up] 'previous-line)
+ (define-key w3m-minor-mode-map [down] 'next-line)
+))
+
 ;;Egg - Git
 (add-to-list 'load-path "~/.emacs.d/egg_true")
 (require 'egg)
@@ -84,6 +102,12 @@
 (load-library "flymake-cursor")
 (global-set-key [f10] 'flymake-goto-prev-error)
 (global-set-key [f11] 'flymake-goto-next-error)
+
+;;Flymake for c
+(add-hook 'c-mode-common-hook
+          (function (lambda ()
+                      (flymake-mode t)
+                      )))
 
 ;;FlyMake for python
 (add-hook 'find-file-hook 'flymake-find-file-hook)
@@ -133,3 +157,66 @@
 
 ;;Key bindings
 (global-set-key (kbd "<f5>") 'recompile)
+
+
+;;Agda
+(load-file (let ((coding-system-for-read 'utf-8))
+                (shell-command-to-string "agda-mode locate")))
+
+;;(add-hook 'agda2-mode-hook
+;;          '(lambda ()
+;;             (set-background-color "black")
+;;             ))
+
+;;(add-hook 'change-major-mode-hook
+;;          (lambda () (color-theme-tangotango)))
+
+;;Ruby
+(add-to-list 'load-path "~/.emacs.d/ruby")
+(autoload 'ruby-mode "ruby-mode"
+    "Mode for editing ruby source files")
+(add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
+(add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
+(autoload 'run-ruby "inf-ruby"
+    "Run an inferior Ruby process")
+(autoload 'inf-ruby-keys "inf-ruby"
+    "Set local key defs for inf-ruby in ruby-mode")
+(add-hook 'ruby-mode-hook
+    '(lambda ()
+        (inf-ruby-keys)))
+;; uncomment the next line if you want syntax highlighting                     
+(add-hook 'ruby-mode-hook 'turn-on-font-lock)
+
+;;Ruby - Flymake
+(require 'flymake)
+
+;; I don't like the default colors :)
+(set-face-background 'flymake-errline "red4")
+(set-face-background 'flymake-warnline "dark slate blue")
+
+;; Invoke ruby with '-c' to get syntax checking
+(defun flymake-ruby-init ()
+  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+	 (local-file  (file-relative-name
+                       temp-file
+                       (file-name-directory buffer-file-name))))
+    (list "ruby" (list "-c" local-file))))
+
+(push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
+(push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
+
+(push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3) flymake-err-line-patterns)
+
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+
+	     ;; Don't want flymake mode for ruby regions in rhtml files and also on read only files
+	     (if (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
+		 (flymake-mode))
+	     ))
+
+
+;;Rails
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/emacs-rails"))
+  (require 'rails)
