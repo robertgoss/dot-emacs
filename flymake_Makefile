@@ -1,0 +1,6 @@
+#A makefile so flymake will syntax check .cpp and .h files
+#Either just add this or add line to project's makefiles
+
+.PHONY: check-syntax
+check-syntax:
+        $(CXX) $(CXXFLAGS) -Wall -Wextra -pedantic -fsyntax-only $(SRCS)
