@@ -202,3 +202,13 @@
 (setq mumamo-chunk-coloring 'submode-colored)
 (add-to-list 'auto-mode-alist '("\\.rhtml\\'" . eruby-html-mumamo))
 (add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . eruby-html-mumamo))
+
+;;Sass
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/scss-mode.el"))
+(autoload 'scss-mode "scss-mode")
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+
+
+;;Gemfile
+(add-to-list 'auto-mode-alist '("\\Gemfile\\'" . ruby-mode))
+
