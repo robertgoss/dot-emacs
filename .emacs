@@ -156,20 +156,6 @@
 ;;          (lambda () (color-theme-tangotango)))
 
 ;;Ruby
-(add-to-list 'load-path "~/.emacs.d/ruby")
-(autoload 'ruby-mode "ruby-mode"
-    "Mode for editing ruby source files")
-(add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
-(add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
-(autoload 'run-ruby "inf-ruby"
-    "Run an inferior Ruby process")
-(autoload 'inf-ruby-keys "inf-ruby"
-    "Set local key defs for inf-ruby in ruby-mode")
-(add-hook 'ruby-mode-hook
-    '(lambda ()
-        (inf-ruby-keys)))
-;; uncomment the next line if you want syntax highlighting                     
-(add-hook 'ruby-mode-hook 'turn-on-font-lock)
 
 ;;Ruby - Flymake
 (require 'flymake)
@@ -201,6 +187,18 @@
 	     ))
 
 
-;;Rails
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/emacs-rails"))
-  (require 'rails)
+;;Rails - Rinari
+;; Interactively Do Things (highly recommended, but not strictly required)
+(require 'ido)
+(ido-mode t)
+
+(add-to-list 'load-path "~/.emacs.d/rinari")
+(require 'rinari)
+
+;;RHtml
+;; MuMaMo-Mode for rhtml files
+(add-to-list 'load-path "~/.emacs.d/nxhtml/util")
+(require 'mumamo-fun)
+(setq mumamo-chunk-coloring 'submode-colored)
+(add-to-list 'auto-mode-alist '("\\.rhtml\\'" . eruby-html-mumamo))
+(add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . eruby-html-mumamo))
